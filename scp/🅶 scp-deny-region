@@ -1,0 +1,61 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyOutsideApprovedRegions",
+      "Effect": "Deny",
+      "NotAction": [
+        "iam:*",
+        "sts:*",
+        "organizations:*",
+        "route53:*",
+        "route53domains:*",
+        "route53-recovery-cluster:*",
+        "route53-recovery-control-config:*",
+        "route53-recovery-readiness:*",
+        "globalaccelerator:*",
+        "networkmanager:*",
+        "directconnect:*",
+        "cloudfront:*",
+        "waf:*",
+        "wafv2:*",
+        "waf-regional:*",
+        "shield:*",
+        "acm:*",
+        "kms:*",
+        "support:*",
+        "budgets:*",
+        "ce:*",
+        "health:*",
+        "trustedadvisor:*",
+        "pricing:*",
+        "cur:*",
+        "config:*",
+        "wellarchitected:*",
+        "ec2:DescribeRegions",
+        "ec2:DescribeTransitGateways",
+        "ec2:DescribeVpnGateways",
+        "s3:GetAccountPublic*",
+        "s3:ListAllMyBuckets",
+        "s3:ListMultiRegionAccessPoints",
+        "s3:PutAccountPublic*"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:RequestedRegion": [
+            "ap-northeast-1",
+            "ap-northeast-3",
+            "us-east-1"
+          ]
+        },
+        "ArnNotLike": {
+          "aws:PrincipalArn": [
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/BreakGlass*",
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AdministratorAccess*"
+          ]
+        }
+      }
+    }
+  ]
+}
