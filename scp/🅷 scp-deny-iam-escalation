@@ -1,0 +1,26 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyIamUserOperations",
+      "Effect": "Deny",
+      "Action": [
+        "iam:CreateUser",
+        "iam:CreateAccessKey",
+        "iam:CreateLoginProfile",
+        "iam:AttachUserPolicy",
+        "iam:PutUserPolicy"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalArn": [
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AdministratorAccess*",
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/BreakGlass*"
+          ]
+        }
+      }
+    }
+  ]
+}
+``
