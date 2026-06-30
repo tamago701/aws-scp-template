@@ -1,0 +1,36 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyExternalPrincipalAccess",
+      "Effect": "Deny",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": {
+        "StringNotEqualsIfExists": {
+          "aws:PrincipalOrgID": "<ORG_ID>"
+        },
+        "BoolIfExists": {
+          "aws:PrincipalIsAWSService": "false"
+        }
+      }
+    },
+    {
+      "Sid": "DenyConfusedDeputy",
+      "Effect": "Deny",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": {
+        "StringNotEqualsIfExists": {
+          "aws:SourceOrgID": "<ORG_ID>"
+        },
+        "Null": {
+          "aws:SourceAccount": "false"
+        },
+        "Bool": {
+          "aws:PrincipalIsAWSService": "true"
+        }
+      }
+    }
+  ]
+}
