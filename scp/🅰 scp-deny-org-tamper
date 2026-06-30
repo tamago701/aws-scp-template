@@ -1,0 +1,38 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyDestructiveOrgActions",
+      "Effect": "Deny",
+      "Action": [
+        "organizations:LeaveOrganization",
+        "organizations:DeleteOrganization",
+        "organizations:DisablePolicyType",
+        "organizations:RemoveAccountFromOrganization",
+        "organizations:DisableAWSServiceAccess",
+        "organizations:MoveAccount"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "DenyOrgMgmtExceptDelegatedAdmin",
+      "Effect": "Deny",
+      "Action": [
+        "organizations:DetachPolicy",
+        "organizations:DeletePolicy",
+        "organizations:UpdatePolicy",
+        "organizations:AttachPolicy",
+        "organizations:CreatePolicy",
+        "organizations:CreateOrganizationalUnit",
+        "organizations:DeleteOrganizationalUnit",
+        "organizations:UpdateOrganizationalUnit"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringNotEqualsIfExists": {
+          "aws:PrincipalAccount": "<SECURITY_TOOLS_ACCOUNT_ID>"
+        }
+      }
+    }
+  ]
+}
