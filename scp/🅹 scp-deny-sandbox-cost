@@ -1,0 +1,40 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenySandboxHighCostEC2",
+      "Effect": "Deny",
+      "Action": "ec2:RunInstances",
+      "Resource": "arn:aws:ec2:*:*:instance/*",
+      "Condition": {
+        "StringLike": {
+          "ec2:InstanceType": [
+            "p*",
+            "x*",
+            "u*",
+            "g*",
+            "inf*",
+            "trn*",
+            "hpc*"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "DenySandboxHighCostRDS",
+      "Effect": "Deny",
+      "Action": "rds:CreateDBInstance",
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "rds:DatabaseClass": [
+            "db.t3.micro",
+            "db.t3.small",
+            "db.t4g.micro",
+            "db.t4g.small"
+          ]
+        }
+      }
+    }
+  ]
+}
