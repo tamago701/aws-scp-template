@@ -1,0 +1,38 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ProtectLogBucket",
+      "Effect": "Deny",
+      "Action": [
+        "s3:DeleteBucket",
+        "s3:DeleteObject",
+        "s3:DeleteObjectVersion",
+        "s3:PutBucketPolicy",
+        "s3:DeleteBucketPolicy",
+        "s3:PutLifecycleConfiguration",
+        "s3:PutBucketAcl",
+        "s3:PutEncryptionConfiguration",
+        "s3:PutBucketPublicAccessBlock",
+        "s3:PutBucketVersioning",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention"
+      ],
+      "Resource": [
+        "arn:aws:s3:::<LOG_BUCKET_NAME>",
+        "arn:aws:s3:::<LOG_BUCKET_NAME>/*"
+      ],
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalArn": [
+            "arn:aws:iam::<SECURITY_TOOLS_ACCOUNT_ID>:role/aws-reserved/sso.amazonaws.com/*/BreakGlass*"
+          ]
+        },
+        "StringNotEquals": {
+          "aws:PrincipalServiceName": "cloudtrail.amazonaws.com"
+        }
+      }
+    }
+  ]
+}
+``
